@@ -1,0 +1,26 @@
+# Eclipse
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.recommenders
+Release
+release
+Debug
+Debug/*
+Release/*
+debug
+.launch
+
+
+# CDT- autotools
+.autotools
+/P5_Smart_Testing Debug.launch
+
+/Python/plot
+/Python/data
