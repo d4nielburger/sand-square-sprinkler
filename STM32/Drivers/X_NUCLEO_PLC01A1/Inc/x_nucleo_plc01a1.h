@@ -42,6 +42,10 @@
 #ifndef __X_NUCLEO_PLC01A1_H
 #define __X_NUCLEO_PLC01A1_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* Includes ------------------------------------------------------------------*/
 #include "cube_hal.h"
 
@@ -161,6 +165,10 @@ CURRENT_LIMITER_StatusTypeDef BSP_CurrentLimiter_Init(void);
 /**
  * @}
  */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif
 
