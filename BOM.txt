@@ -1,0 +1,20 @@
+#Low Level Controller:
+1x STM32Fx Nucleo board		NUCLEO-F411RE		13.-
+1x STM PLC expansion board	X-NUCLEO-PLC01A1	10.-
+1x Micro USB Cable
+
+#Raspi
+1x Raspi 4
+1x SD-Card 32GB
+1x MicroSD to USB adapter
+1x USB-C charger
+
+#Tablet
+1x 2x Old,used android tablet
+
+#Carrier PCB
+1x PCB from JLC
+some Headers
+1x Power Module 24V to 5V/3V3
+
+
