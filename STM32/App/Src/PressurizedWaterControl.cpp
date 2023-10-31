@@ -47,7 +47,7 @@ void PressurizedWaterControl::run() {
 		}
 		break;
 	case SPRINKLER:
-		if (switchSmallTankEmpty) {
+		if (switchSmallTankEmpty.read()) {
 			pump.setOff();
 		} else {
 			pump.setOn();
@@ -63,7 +63,7 @@ void PressurizedWaterControl::run() {
 		}
 		break;
 	case HOSE:
-		if (switchSmallTankEmpty) {
+		if (switchSmallTankEmpty.read()) {
 			pump.setOff();
 		} else {
 			pump.setOn();
