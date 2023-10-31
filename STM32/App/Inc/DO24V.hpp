@@ -11,6 +11,15 @@
 #include "stdint.h"
 #include "PLC.hpp"
 
+#define DO1 1
+#define DO2 2
+#define DO3 3
+#define DO4 4
+#define DO5 5
+#define DO6 6
+#define DO7 7
+#define DO8 8
+
 class DO_24V {
 private:
 	PLC &plc;

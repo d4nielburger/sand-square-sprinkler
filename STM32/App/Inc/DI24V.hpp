@@ -11,6 +11,15 @@
 #include "stdint.h"
 #include "PLC.hpp"
 
+#define DI1 1
+#define DI2 2
+#define DI3 3
+#define DI4 4
+#define DI5 5
+#define DI6 6
+#define DI7 7
+#define DI8 8
+
 class DI_24V {
 private:
 	PLC &plc;
