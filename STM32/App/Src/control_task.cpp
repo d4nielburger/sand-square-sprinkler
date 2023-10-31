@@ -41,16 +41,13 @@ static DO_24V valveHose(plc01, DO6);
 
 static DI_24V switchSmallTankFull(plc01, DI1);
 static DI_24V switchSmallTankEmpty(plc01, DI2);
-static DI_24V switchLargeTankFull(plc01, DI3);
-static DI_24V switchLargeTankEmpty(plc01, DI2);
 
 // Controllers
 static GaragePumpControl garagePumpControl(commandQueue, garagePump);
 static TankFillControl tankFillControl(commandQueue,
 										valveSmallTankInlet,
 										valveDrain,
-										switchSmallTankFull,
-										switchLargeTankFull);
+										switchSmallTankFull);
 static PressurizedWaterControl pressWaterControl(commandQueue,
 										pressurePump,
 										valveHose,

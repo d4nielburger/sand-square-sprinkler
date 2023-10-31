@@ -10,13 +10,11 @@
 TankFillControl::TankFillControl(QueueHandle_t cmdQueue,
 		DO_24V &vSmallTankInlet,
 		DO_24V &vDrain,
-		DI_24V &swSmallTankFull,
-		DI_24V &swLargeTankFull) :
+		DI_24V &swSmallTankFull) :
 		commandQueue(cmdQueue),
 		valveSmallTankInlet(vSmallTankInlet),
 		valveDrain(vDrain),
-		switchSmallTankFull(swSmallTankFull),
-		switchLargeTankFull(swLargeTankFull) {
+		switchSmallTankFull(swSmallTankFull) {
 	state = INIT;
 }
 
@@ -55,12 +53,7 @@ void TankFillControl::run() {
 		}
 		break;
 	case FILL_LARGE:
-		if (switchLargeTankFull.read()) {
-			valveDrain.setOn();
-		} else {
-			valveDrain.setOff();
-		}
-
+		valveDrain.setOff();
 		valveSmallTankInlet.setOff();
 
 		if (command == FILL_SMALL_TANK) {
