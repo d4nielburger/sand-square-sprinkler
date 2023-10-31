@@ -35,7 +35,7 @@ static PLC plc01;
 static DO_24V garagePump(plc01, DO1);
 static DO_24V pressurePump(plc01,DO2);
 static DO_24V valveSmallTankInlet(plc01, DO3);
-static DO_24V valveLargeTankInlet(plc01, DO4);
+static DO_24V valveDrain(plc01, DO4);
 static DO_24V valveSprinkler(plc01, DO5);
 static DO_24V valveHose(plc01, DO6);
 
@@ -48,7 +48,7 @@ static DI_24V switchLargeTankEmpty(plc01, DI2);
 static GaragePumpControl garagePumpControl(commandQueue, garagePump);
 static TankFillControl tankFillControl(commandQueue,
 										valveSmallTankInlet,
-										valveLargeTankInlet,
+										valveDrain,
 										switchSmallTankFull,
 										switchLargeTankFull);
 static PressurizedWaterControl pressWaterControl(commandQueue,

@@ -23,13 +23,13 @@ private:
 	FsmStates_t state;
 	QueueHandle_t commandQueue;
 	DO_24V &valveSmallTankInlet;
-	DO_24V &valveLargeTankInlet;
+	DO_24V &valveDrain;
 	DI_24V &switchSmallTankFull;
 	DI_24V &switchLargeTankFull;
 
 public:
 	TankFillControl(QueueHandle_t cmdQueue, DO_24V &vSmallTankInlet,
-			DO_24V &vLargeTankInlet, DI_24V &swSmallTankFull,
+			DO_24V &vDrain, DI_24V &swSmallTankFull,
 			DI_24V &swLargeTankFull);
 
 	void run();

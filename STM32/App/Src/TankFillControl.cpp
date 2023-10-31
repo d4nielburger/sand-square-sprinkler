@@ -9,12 +9,12 @@
 
 TankFillControl::TankFillControl(QueueHandle_t cmdQueue,
 		DO_24V &vSmallTankInlet,
-		DO_24V &vLargeTankInlet,
+		DO_24V &vDrain,
 		DI_24V &swSmallTankFull,
 		DI_24V &swLargeTankFull) :
 		commandQueue(cmdQueue),
 		valveSmallTankInlet(vSmallTankInlet),
-		valveLargeTankInlet(vLargeTankInlet),
+		valveDrain(vDrain),
 		switchSmallTankFull(swSmallTankFull),
 		switchLargeTankFull(swLargeTankFull) {
 	state = INIT;
@@ -28,7 +28,7 @@ void TankFillControl::run() {
 	// FSM
 	switch (state) {
 	case INIT:
-		valveLargeTankInlet.setOff();
+		valveDrain.setOn();
 		valveSmallTankInlet.setOff();
 
 		if (command == FILL_LARGE_TANK) {
@@ -46,6 +46,8 @@ void TankFillControl::run() {
 			valveSmallTankInlet.setOn();
 		}
 
+		valveDrain.setOff();
+
 		if (command == FILL_LARGE_TANK) {
 			state = FILL_LARGE;
 		} else if (command == FILL_NO_TANK) {
@@ -54,10 +56,12 @@ void TankFillControl::run() {
 		break;
 	case FILL_LARGE:
 		if (switchLargeTankFull.read()) {
-			valveLargeTankInlet.setOff();
+			valveDrain.setOn();
 		} else {
-			valveLargeTankInlet.setOn();
+			valveDrain.setOff();
 		}
+
+		valveSmallTankInlet.setOff();
 
 		if (command == FILL_SMALL_TANK) {
 			state = FILL_SMALL;
@@ -66,7 +70,7 @@ void TankFillControl::run() {
 		}
 		break;
 	case DRAIN:
-		valveLargeTankInlet.setOff();
+		valveDrain.setOn();
 		valveSmallTankInlet.setOff();
 
 		if (command == FILL_SMALL_TANK) {
