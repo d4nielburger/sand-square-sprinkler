@@ -39,8 +39,7 @@ void CommandDirector::directControlCommand(QueueHandle_t commandQueue,
 		command == HOSE_START ||
 		command == HOSE_STOP ||
 		command == PRESSURE_PUMP_START ||
-		command == PRESSURE_PUMP_STOP ||
-		command == NONE)
+		command == PRESSURE_PUMP_STOP)
 	{
 		xQueueSend(pressWaterCmd, static_cast<void*>(&command), (TickType_t ) 0);
 	}
