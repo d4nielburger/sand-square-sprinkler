@@ -8,9 +8,24 @@
 #ifndef SRC_GARAGEPUMPCONTROL_HPP_
 #define SRC_GARAGEPUMPCONTROL_HPP_
 
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "DO24V.hpp"
+#include "commands.h"
+
+typedef enum {
+	INIT, ON, OFF
+} FsmStates_t;
+
 class GaragePumpControl {
+private:
+	FsmStates_t state;
+	QueueHandle_t commandQueue;
+	DO_24V & pump;
+
 public:
-	GaragePumpControl();
+	GaragePumpControl(QueueHandle_t commandQueue, DO_24V & pump);
+	void run();
 };
 
 #endif /* SRC_GARAGEPUMPCONTROL_HPP_ */
