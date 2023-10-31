@@ -14,12 +14,12 @@
 #include "DI24V.hpp"
 #include "commands.h"
 
-typedef enum {
-	INIT, OFF, SPRINKLER, HOSE
-} FsmStates_t;
-
 class PressurizedWaterControl {
 private:
+	typedef enum {
+		INIT, OFF, SPRINKLER, HOSE
+	} FsmStates_t;
+
 	FsmStates_t state;
 	QueueHandle_t commandQueue;
 	DO_24V &pump;

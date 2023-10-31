@@ -14,12 +14,12 @@
 #include "DI24V.hpp"
 #include "commands.h"
 
-typedef enum {
-	INIT, FILL_SMALL, FILL_LARGE, DRAIN
-} FsmStates_t;
-
 class TankFillControl {
 private:
+	typedef enum {
+		INIT, FILL_SMALL, FILL_LARGE, DRAIN
+	} FsmStates_t;
+
 	FsmStates_t state;
 	QueueHandle_t commandQueue;
 	DO_24V &valveSmallTankInlet;
