@@ -22,6 +22,7 @@
 #include "TankFillControl.hpp"
 #include "PressurizedWaterControl.hpp"
 #include "CommandDirector.hpp"
+#include "commands.h" //Test
 
 QueueHandle_t commandQueue;
 QueueHandle_t garagePumpCmds;
@@ -33,7 +34,7 @@ QueueHandle_t pressWaterCmds;
 static PLC plc01;
 
 static DO_24V garagePump(plc01, DO1);
-static DO_24V pressurePump(plc01,DO2);
+static DO_24V pressurePump(plc01, DO2);
 static DO_24V valveSmallTankInlet(plc01, DO3);
 static DO_24V valveDrain(plc01, DO4);
 static DO_24V valveSprinkler(plc01, DO5);
@@ -44,15 +45,10 @@ static DI_24V switchSmallTankEmpty(plc01, DI2);
 
 // Controllers
 static GaragePumpControl garagePumpControl(commandQueue, garagePump);
-static TankFillControl tankFillControl(commandQueue,
-										valveSmallTankInlet,
-										valveDrain,
-										switchSmallTankFull);
-static PressurizedWaterControl pressWaterControl(commandQueue,
-										pressurePump,
-										valveHose,
-										valveSprinkler,
-										switchSmallTankEmpty);
+static TankFillControl tankFillControl(commandQueue, valveSmallTankInlet,
+		valveDrain, switchSmallTankFull);
+static PressurizedWaterControl pressWaterControl(commandQueue, pressurePump,
+		valveHose, valveSprinkler, switchSmallTankEmpty);
 
 // Helper
 static CommandDirector commandDirector;
@@ -67,13 +63,34 @@ void controlTask(void *argument) {
 	TickType_t xLastWakeTime;
 	const TickType_t xPeriod = CONTROL_TASK_PERIOD / portTICK_PERIOD_MS;
 
+	// test
+	uint32_t testCnt = 0;
+	uint8_t cmdCnt = 2;
+	uint8_t cmdCounter = 0;
+	Commands_t commands[cmdCnt] = { SPRINKLER_START, SPRINKLER_STOP };
+
 	plc01.init();
 
 	// Infinite Loop
 	xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
+		// Create test commands
+		testCnt++;
+		if (testCnt >= (100 * 3)) {
+			testCnt = 0;
+			if (cmdCounter <= cmdCnt) {
+				xQueueSend(commandQueue,
+						static_cast<void*>(&commands[cmdCounter]),
+						(TickType_t ) 0);
+				cmdCounter++;
+			} else {
+				cmdCounter = 0;
+			}
+		}
+
 		// Direct the incoming commands
-		commandDirector.directControlCommand(commandQueue, garagePumpCmds, tankFillCmds, pressWaterCmds);
+		commandDirector.directControlCommand(commandQueue, garagePumpCmds,
+				tankFillCmds, pressWaterCmds);
 
 		// Run controls
 		garagePumpControl.run();
