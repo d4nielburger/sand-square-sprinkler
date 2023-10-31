@@ -9,7 +9,7 @@
 #define SRC_COMMANDDIRECTOR_HPP_
 
 #include "FreeRTOS.h"
-#include "queue.h"
+#include "CommandQueue.hpp"
 #include "commands.h"
 
 class CommandDirector {
@@ -17,9 +17,9 @@ private:
 
 public:
 	CommandDirector();
-	static void directControlCommand(QueueHandle_t commandQueue,
-			QueueHandle_t garagePumpCmd, QueueHandle_t tankFillCmd,
-			QueueHandle_t pressWaterCmd);
+	static void directControlCommand(CommandQueue &commandQueue,
+			CommandQueue &garagePumpCmd, CommandQueue &tankFillCmd,
+			CommandQueue &pressWaterCmd);
 };
 
 #endif /* SRC_COMMANDDIRECTOR_HPP_ */

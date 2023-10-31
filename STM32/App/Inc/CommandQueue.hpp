@@ -13,23 +13,20 @@
 #include "commands.h"
 
 enum class CommandQueueStatus {
-    Success,
-    Failure,
-    Timeout
+	Success, Failure, Timeout
 };
 
 class CommandQueue {
 private:
-    QueueHandle_t xCommandQueue;
-    static const TickType_t ticksToWait = (TickType_t) 0;
+	size_t queueLength;
+	QueueHandle_t xCommandQueue;
+	static const TickType_t ticksToWait = (TickType_t) 0;
 
 public:
-    // Constructor
-    CommandQueue(size_t queueLength);
+	CommandQueue(size_t queueLength);
+	CommandQueueStatus send(const Commands_t &command);
+	CommandQueueStatus receive(Commands_t &command);
 
-    BaseType_t send(const Commands_t& command);
-
-    BaseType_t receive(Commands_t& command);
 };
 
 #endif // COMMAND_QUEUE_H

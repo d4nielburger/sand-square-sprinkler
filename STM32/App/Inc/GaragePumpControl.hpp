@@ -8,10 +8,9 @@
 #ifndef SRC_GARAGEPUMPCONTROL_HPP_
 #define SRC_GARAGEPUMPCONTROL_HPP_
 
-#include "FreeRTOS.h"
-#include "queue.h"
 #include "DO24V.hpp"
 #include "commands.h"
+#include "CommandQueue.hpp"
 
 class GaragePumpControl {
 private:
@@ -20,11 +19,11 @@ private:
 	} FsmStates_t;
 
 	FsmStates_t state;
-	QueueHandle_t commandQueue;
+	CommandQueue &commandQueue;
 	DO_24V &pump;
 
 public:
-	GaragePumpControl(QueueHandle_t commandQueue, DO_24V &pump);
+	GaragePumpControl(CommandQueue &commandQueue, DO_24V &pump);
 	void run();
 };
 

@@ -8,11 +8,10 @@
 #ifndef SRC_TANKFILLCONTROL_HPP_
 #define SRC_TANKFILLCONTROL_HPP_
 
-#include "FreeRTOS.h"
-#include "queue.h"
 #include "DO24V.hpp"
 #include "DI24V.hpp"
 #include "commands.h"
+#include "CommandQueue.hpp"
 
 class TankFillControl {
 private:
@@ -21,13 +20,13 @@ private:
 	} FsmStates_t;
 
 	FsmStates_t state;
-	QueueHandle_t commandQueue;
+	CommandQueue &commandQueue;
 	DO_24V &valveSmallTankInlet;
 	DO_24V &valveDrain;
 	DI_24V &switchSmallTankFull;
 
 public:
-	TankFillControl(QueueHandle_t cmdQueue, DO_24V &vSmallTankInlet,
+	TankFillControl(CommandQueue &cmdQueue, DO_24V &vSmallTankInlet,
 			DO_24V &vDrain, DI_24V &swSmallTankFull);
 
 	void run();

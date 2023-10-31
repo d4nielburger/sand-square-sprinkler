@@ -7,7 +7,7 @@
 
 #include "TankFillControl.hpp"
 
-TankFillControl::TankFillControl(QueueHandle_t cmdQueue,
+TankFillControl::TankFillControl(CommandQueue &cmdQueue,
 		DO_24V &vSmallTankInlet, DO_24V &vDrain, DI_24V &swSmallTankFull) :
 		commandQueue(cmdQueue), valveSmallTankInlet(vSmallTankInlet), valveDrain(
 				vDrain), switchSmallTankFull(swSmallTankFull) {
@@ -15,9 +15,9 @@ TankFillControl::TankFillControl(QueueHandle_t cmdQueue,
 }
 
 void TankFillControl::run() {
-	// Get command received from high level controller
+	// Get command
 	Commands_t command;
-	if (xQueueReceive(commandQueue, &command, (TickType_t) 0) != pdPASS) {
+	if (commandQueue.receive(command) != CommandQueueStatus::Success) {
 		command = NONE;
 	}
 

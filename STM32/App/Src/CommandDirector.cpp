@@ -10,26 +10,25 @@
 CommandDirector::CommandDirector() {
 }
 
-void CommandDirector::directControlCommand(QueueHandle_t commandQueue,
-		QueueHandle_t garagePumpCmd, QueueHandle_t tankFillCmd,
-		QueueHandle_t pressWaterCmd) {
+void CommandDirector::directControlCommand(CommandQueue &commandQueue,
+		CommandQueue &garagePumpCmd, CommandQueue &tankFillCmd,
+		CommandQueue &pressWaterCmd) {
 
 	// Get command
 	Commands_t command;
-	if (xQueueReceive(commandQueue, &command, (TickType_t) 0) != pdPASS) {
+	if (commandQueue.receive(command) != CommandQueueStatus::Success) {
 		command = NONE;
 	}
 
 	// garage pump commands
 	if (command == GARAGE_PUMP_START || command == GARAGE_PUMP_STOP) {
-		xQueueSend(garagePumpCmd, static_cast<void*>(&command),
-				(TickType_t ) 0);
+		garagePumpCmd.send(command);
 	}
 
 	// tank fill commands
 	if (command == FILL_LARGE_TANK || command == FILL_SMALL_TANK
 			|| command == FILL_NO_TANK) {
-		xQueueSend(tankFillCmd, static_cast<void*>(&command), (TickType_t ) 0);
+		tankFillCmd.send(command);
 	}
 
 	// pressure water commands
@@ -37,7 +36,6 @@ void CommandDirector::directControlCommand(QueueHandle_t commandQueue,
 			|| command == HOSE_START || command == HOSE_STOP
 			|| command == PRESSURE_PUMP_START
 			|| command == PRESSURE_PUMP_STOP) {
-		xQueueSend(pressWaterCmd, static_cast<void*>(&command),
-				(TickType_t ) 0);
+		pressWaterCmd.send(command);
 	}
 }

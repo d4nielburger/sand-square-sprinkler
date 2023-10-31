@@ -8,11 +8,10 @@
 #ifndef SRC_PRESSURIZEDWATERCONTROL_HPP_
 #define SRC_PRESSURIZEDWATERCONTROL_HPP_
 
-#include "FreeRTOS.h"
-#include "queue.h"
 #include "DO24V.hpp"
 #include "DI24V.hpp"
 #include "commands.h"
+#include "CommandQueue.hpp"
 
 class PressurizedWaterControl {
 private:
@@ -21,14 +20,14 @@ private:
 	} FsmStates_t;
 
 	FsmStates_t state;
-	QueueHandle_t commandQueue;
+	CommandQueue &commandQueue;
 	DO_24V &pump;
 	DO_24V &valveHose;
 	DO_24V &valveSprinkler;
 	DI_24V &switchSmallTankEmpty;
 
 public:
-	PressurizedWaterControl(QueueHandle_t cmdQueue, DO_24V &pump, DO_24V &vHose,
+	PressurizedWaterControl(CommandQueue &cmdQueue, DO_24V &pump, DO_24V &vHose,
 			DO_24V &vSprinkler, DI_24V &swSmallTankEmpty);
 	void run();
 };

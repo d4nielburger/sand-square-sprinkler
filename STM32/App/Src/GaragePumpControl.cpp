@@ -7,15 +7,15 @@
 
 #include "GaragePumpControl.hpp"
 
-GaragePumpControl::GaragePumpControl(QueueHandle_t commandQueue, DO_24V & pump) :
+GaragePumpControl::GaragePumpControl(CommandQueue &commandQueue, DO_24V &pump) :
 		commandQueue(commandQueue), pump(pump) {
 	state = INIT;
 }
 
 void GaragePumpControl::run() {
-	// Get command received from high level controller
+	// Get command
 	Commands_t command;
-	if (xQueueReceive(commandQueue, &command, (TickType_t) 0) != pdPASS){
+	if (commandQueue.receive(command) != CommandQueueStatus::Success) {
 		command = NONE;
 	}
 
@@ -30,14 +30,14 @@ void GaragePumpControl::run() {
 	case ON:
 		pump.setOn();
 
-		if (command == GARAGE_PUMP_STOP){
+		if (command == GARAGE_PUMP_STOP) {
 			state = OFF;
 		}
-			break;
+		break;
 	case OFF:
 		pump.setOff();
 
-		if (command == GARAGE_PUMP_STOP){
+		if (command == GARAGE_PUMP_STOP) {
 			state = ON;
 		}
 		break;

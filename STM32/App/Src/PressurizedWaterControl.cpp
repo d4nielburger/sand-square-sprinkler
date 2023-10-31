@@ -7,7 +7,7 @@
 
 #include "PressurizedWaterControl.hpp"
 
-PressurizedWaterControl::PressurizedWaterControl(QueueHandle_t cmdQueue,
+PressurizedWaterControl::PressurizedWaterControl(CommandQueue &cmdQueue,
 		DO_24V &pump, DO_24V &vHose, DO_24V &vSprinkler,
 		DI_24V &swSmallTankEmpty) :
 		commandQueue(cmdQueue), pump(pump), valveHose(vHose), valveSprinkler(
@@ -16,9 +16,9 @@ PressurizedWaterControl::PressurizedWaterControl(QueueHandle_t cmdQueue,
 }
 
 void PressurizedWaterControl::run() {
-	// Get command received from high level controller
+	// Get command
 	Commands_t command;
-	if (xQueueReceive(commandQueue, &command, (TickType_t) 0) != pdPASS) {
+	if (commandQueue.receive(command) != CommandQueueStatus::Success) {
 		command = NONE;
 	}
 
