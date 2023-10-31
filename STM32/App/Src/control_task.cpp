@@ -43,12 +43,12 @@ static DO_24V valveHose(plc01, DO6);
 static DI_24V switchSmallTankFull(plc01, DI1);
 static DI_24V switchSmallTankEmpty(plc01, DI2);
 
-// Controllers
-static GaragePumpControl garagePumpControl(commandQueue, garagePump);
-static TankFillControl tankFillControl(commandQueue, valveSmallTankInlet,
-		valveDrain, switchSmallTankFull);
-static PressurizedWaterControl pressWaterControl(commandQueue, pressurePump,
-		valveHose, valveSprinkler, switchSmallTankEmpty);
+//// Controllers
+//static GaragePumpControl garagePumpControl(commandQueue, garagePump);
+//static TankFillControl tankFillControl(commandQueue, valveSmallTankInlet,
+//		valveDrain, switchSmallTankFull);
+//static PressurizedWaterControl pressWaterControl(commandQueue, pressurePump,
+//		valveHose, valveSprinkler, switchSmallTankEmpty);
 
 // Helper
 static CommandDirector commandDirector;
@@ -58,6 +58,14 @@ static CommandDirector commandDirector;
 void controlTask(void *argument) {
 	// Get command queue from task argument
 	commandQueue = static_cast<QueueHandle_t>(argument);
+
+	// test
+	// Controllers
+	GaragePumpControl garagePumpControl(commandQueue, garagePump);
+	TankFillControl tankFillControl(commandQueue, valveSmallTankInlet,
+			valveDrain, switchSmallTankFull);
+	PressurizedWaterControl pressWaterControl(commandQueue, pressurePump,
+			valveHose, valveSprinkler, switchSmallTankEmpty);
 
 	// For periodical task execution
 	TickType_t xLastWakeTime;

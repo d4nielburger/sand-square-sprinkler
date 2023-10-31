@@ -17,8 +17,10 @@ PressurizedWaterControl::PressurizedWaterControl(QueueHandle_t cmdQueue,
 
 void PressurizedWaterControl::run() {
 	// Get command received from high level controller
-	Commands_t command = NONE;
-	xQueueReceive(commandQueue, &command, (TickType_t) 0);
+	Commands_t command;
+	if (xQueueReceive(commandQueue, &command, (TickType_t) 0) != pdPASS) {
+		command = NONE;
+	}
 
 	// FSM
 	switch (state) {

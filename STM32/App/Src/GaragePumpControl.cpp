@@ -14,8 +14,10 @@ GaragePumpControl::GaragePumpControl(QueueHandle_t commandQueue, DO_24V & pump) 
 
 void GaragePumpControl::run() {
 	// Get command received from high level controller
-	Commands_t command = NONE;
-	xQueueReceive(commandQueue, &command, (TickType_t) 0);
+	Commands_t command;
+	if (xQueueReceive(commandQueue, &command, (TickType_t) 0) != pdPASS){
+		command = NONE;
+	}
 
 	switch (state) {
 	case INIT:

@@ -8,20 +8,18 @@
 #include "TankFillControl.hpp"
 
 TankFillControl::TankFillControl(QueueHandle_t cmdQueue,
-		DO_24V &vSmallTankInlet,
-		DO_24V &vDrain,
-		DI_24V &swSmallTankFull) :
-		commandQueue(cmdQueue),
-		valveSmallTankInlet(vSmallTankInlet),
-		valveDrain(vDrain),
-		switchSmallTankFull(swSmallTankFull) {
+		DO_24V &vSmallTankInlet, DO_24V &vDrain, DI_24V &swSmallTankFull) :
+		commandQueue(cmdQueue), valveSmallTankInlet(vSmallTankInlet), valveDrain(
+				vDrain), switchSmallTankFull(swSmallTankFull) {
 	state = INIT;
 }
 
 void TankFillControl::run() {
 	// Get command received from high level controller
-	Commands_t command = NONE;
-	xQueueReceive(commandQueue, &command, (TickType_t) 0);
+	Commands_t command;
+	if (xQueueReceive(commandQueue, &command, (TickType_t) 0) != pdPASS) {
+		command = NONE;
+	}
 
 	// FSM
 	switch (state) {
