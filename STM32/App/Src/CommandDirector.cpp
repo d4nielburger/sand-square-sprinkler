@@ -7,7 +7,10 @@
 
 #include "CommandDirector.hpp"
 
-void CommandDirector::directControlCommand(QueueHandle_t command,
+CommandDirector::CommandDirector() {
+}
+
+void CommandDirector::directControlCommand(QueueHandle_t commandQueue,
 		QueueHandle_t garagePumpCmd, QueueHandle_t tankFillCmd,
 		QueueHandle_t pressWaterCmd) {
 
@@ -15,32 +18,30 @@ void CommandDirector::directControlCommand(QueueHandle_t command,
 	Commands_t command = NONE;
 	xQueueReceive(commandQueue, &command, (TickType_t) 0);
 
-	switch (command) {
-	case GARAGE_PUMP_START:
-		break;
-	case GARAGE_PUMP_STOP:
-		break;
-	case FILL_LARGE_TANK:
-		break;
-	case FILL_SMALL_TANK:
-		break;
-	case FILL_NO_TANK:
-		break;
-	case SPRINKLER_START:
-		break;
-	case SPRINKLER_STOP:
-		break;
-	case HOSE_START:
-		break;
-	case HOSE_STOP:
-		break;
-	case PRESSURE_PUMP_START:
-		break;
-	case PRESSURE_PUMP_STOP:
-		break;
-	case NONE:
-		break;
-	default:
-		break;
+	// garage pump commands
+	if (command == GARAGE_PUMP_START ||
+		command == GARAGE_PUMP_STOP)
+	{
+		xQueueSend(garagePumpCmd, static_cast<void*>(&command), (TickType_t ) 0);
+	}
+
+	// tank fill commands
+	if (command == FILL_LARGE_TANK ||
+		command == FILL_SMALL_TANK ||
+		command == FILL_NO_TANK)
+	{
+		xQueueSend(tankFillCmd, static_cast<void*>(&command), (TickType_t ) 0);
+	}
+
+	// pressure water commands
+	if (command == SPRINKLER_START ||
+		command == SPRINKLER_STOP ||
+		command == HOSE_START ||
+		command == HOSE_STOP ||
+		command == PRESSURE_PUMP_START ||
+		command == PRESSURE_PUMP_STOP ||
+		command == NONE)
+	{
+		xQueueSend(pressWaterCmd, static_cast<void*>(&command), (TickType_t ) 0);
 	}
 }

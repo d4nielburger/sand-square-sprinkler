@@ -14,9 +14,10 @@
 
 class CommandDirector {
 private:
-	CommandDirector();
+
 public:
-	static void directControlCommand(QueueHandle_t command,
+	CommandDirector();
+	static void directControlCommand(QueueHandle_t commandQueue,
 			QueueHandle_t garagePumpCmd, QueueHandle_t tankFillCmd,
 			QueueHandle_t pressWaterCmd);
 };
