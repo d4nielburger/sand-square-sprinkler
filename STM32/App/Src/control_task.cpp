@@ -60,11 +60,15 @@ void controlTask(void *argument) {
 	commandQueue = static_cast<QueueHandle_t>(argument);
 
 	// test
-	// Controllers
-	GaragePumpControl garagePumpControl(commandQueue, garagePump);
-	TankFillControl tankFillControl(commandQueue, valveSmallTankInlet,
+	garagePumpCmds = xQueueCreate(5, sizeof(Commands_t));
+	tankFillCmds = xQueueCreate(5, sizeof(Commands_t));
+	pressWaterCmds = xQueueCreate(5, sizeof(Commands_t));
+
+	// test Controllers
+	GaragePumpControl garagePumpControl(garagePumpCmds, garagePump);
+	TankFillControl tankFillControl(tankFillCmds, valveSmallTankInlet,
 			valveDrain, switchSmallTankFull);
-	PressurizedWaterControl pressWaterControl(commandQueue, pressurePump,
+	PressurizedWaterControl pressWaterControl(pressWaterCmds, pressurePump,
 			valveHose, valveSprinkler, switchSmallTankEmpty);
 
 	// For periodical task execution
@@ -73,9 +77,9 @@ void controlTask(void *argument) {
 
 	// test
 	uint32_t testCnt = 0;
-	uint8_t cmdCnt = 2;
+	uint8_t cmdCnt = 6;
 	uint8_t cmdCounter = 0;
-	Commands_t commands[cmdCnt] = { SPRINKLER_START, SPRINKLER_STOP };
+	Commands_t commands[cmdCnt] = { FILL_LARGE_TANK, FILL_SMALL_TANK, FILL_NO_TANK, FILL_LARGE_TANK, FILL_NO_TANK, FILL_SMALL_TANK};
 
 	plc01.init();
 
@@ -86,12 +90,13 @@ void controlTask(void *argument) {
 		testCnt++;
 		if (testCnt >= (100 * 3)) {
 			testCnt = 0;
-			if (cmdCounter <= cmdCnt) {
-				xQueueSend(commandQueue,
-						static_cast<void*>(&commands[cmdCounter]),
-						(TickType_t ) 0);
-				cmdCounter++;
-			} else {
+
+			xQueueSend(commandQueue,
+					static_cast<void*>(&(commands[cmdCounter])),
+					(TickType_t ) 0);
+
+			cmdCounter++;
+			if (cmdCounter >= cmdCnt) {
 				cmdCounter = 0;
 			}
 		}
