@@ -23,8 +23,8 @@
 class DO_24V {
 private:
 	PLC &plc;
-	bool inverted;
 	uint8_t doNr;
+	bool inverted;
 public:
 	DO_24V(PLC &plc, uint8_t doNr);
 	DO_24V(PLC &plc, uint8_t doNr, bool inverted);
