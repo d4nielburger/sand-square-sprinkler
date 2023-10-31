@@ -21,6 +21,7 @@
 #include "GaragePumpControl.hpp"
 #include "TankFillControl.hpp"
 #include "PressurizedWaterControl.hpp"
+#include "CommandDirector.hpp"
 
 QueueHandle_t commandQueue;
 QueueHandle_t garagePumpCmds;
@@ -56,6 +57,9 @@ static PressurizedWaterControl pressWaterControl(commandQueue,
 										valveSprinkler,
 										switchSmallTankEmpty);
 
+// Helper
+static CommandDirector commandDirector;
+
 // ========================= control task =====================================
 
 void controlTask(void *argument) {
@@ -71,11 +75,18 @@ void controlTask(void *argument) {
 	// Infinite Loop
 	xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
+		// Direct the incoming commands
+		commandDirector.directControlCommand(commandQueue, garagePumpCmds, tankFillCmds, pressWaterCmds);
+
+		// Run controls
 		garagePumpControl.run();
 		tankFillControl.run();
 		pressWaterControl.run();
 
+		// Run plc module
 		plc01.run();
+
+		// Wait for next task period
 		vTaskDelayUntil(&xLastWakeTime, xPeriod);
 	}
 }
