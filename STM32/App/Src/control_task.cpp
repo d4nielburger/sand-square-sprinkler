@@ -23,6 +23,9 @@
 #include "PressurizedWaterControl.hpp"
 
 QueueHandle_t commandQueue;
+QueueHandle_t garagePumpCmds;
+QueueHandle_t tankFillCmds;
+QueueHandle_t pressWaterCmds;
 
 // =================== Static object declarations =============================
 // IO
@@ -76,4 +79,3 @@ void controlTask(void *argument) {
 		vTaskDelayUntil(&xLastWakeTime, xPeriod);
 	}
 }
-
