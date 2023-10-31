@@ -20,6 +20,8 @@
 #include "DI24V.hpp"
 #include "GaragePumpControl.hpp"
 
+QueueHandle_t commandQueue;
+
 // =================== Static object declarations =============================
 // IO
 static PLC plc01;
@@ -32,7 +34,7 @@ static GaragePumpControl garagePumpControl(commandQueue, garagePump);
 // ========================= control task =====================================
 
 void controlTask(void *argument) {
-	QueueHandle_t commandQueue = static_cast<QueueHandle_t>(argument);
+	commandQueue = static_cast<QueueHandle_t>(argument);
 
 	// For periodical task execution
 	TickType_t xLastWakeTime;
