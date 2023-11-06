@@ -26,8 +26,7 @@ static CommandQueue commandQueue(COMMAND_QUEUE_LENGTH);
 void testTask(void *arguments) {
 	// Get command queue from task argument
 	CommandQueue *commandQueue = static_cast<CommandQueue*>(arguments);
-	Commands_t commands[] = { SPRINKLER_START, SPRINKLER_STOP, GARAGE_PUMP_STOP,
-			GARAGE_PUMP_START };
+	Commands_t commands[] = { SPRINKLER_START };
 
 	for (;;) {
 		for (Commands_t command : commands) {
