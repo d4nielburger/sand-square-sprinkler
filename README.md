@@ -1,36 +1,53 @@
 # sand-square-sprinkler
 System to control water sprinklers and manage the water reservoir.
 
-# Requirements GUI 
-## Controls
--Garage Pump On/Off
--Fill tank: Small/Large/none
--Sprinkler On/Off
--Hose On/Off
--Sprinkler On [for x Minutes]
+## Table of Contents
+- [sand-square-sprinkler](#sand-square-sprinkler)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [ToDo](#todo)
+    - [STM](#stm)
+    - [Raspi - Server](#raspi---server)
+    - [Webclient](#webclient)
+  - [Requirements](#requirements)
+    - [GUI](#gui)
 
-## Status
--Garage pump status
--Fill tank status
--Sprinkler status
--Hose status
+## Overview
+![System](SA-SD/overview-1.png)
+![Block Diagram](SA-SD/overview-2.png)
 
-## Visual System Overview
-Optional: Display a visual overview of the System with all pumps, valves and level switches
+## ToDo
+- Discuss block diagram with MDC
+### STM
+- VirtualComPort Handler
+- Status Signals
 
-## Diverse
--Alive signal
+### Raspi - Server
+- Com Port interface
+- High level controller
+- Database
+- Webserver
 
-# ToDo
-## STM
--VirtualComPort Handler
--Status Signals
+### Webclient
+- GUI Mainpage
 
-## Raspi - Server
--Com Port interface
--High level controller
--Database
--API
+## Requirements
+### GUI
+**Controls**
+- Garage Pump On/Off
+- Fill tank: Small/Large/none
+- Sprinkler On/Off
+- Hose On/Off
+- Sprinkler On [for x Minutes]
 
-## Webclient
--GUI Mainpage
+**Status**
+- Garage pump status
+- Fill tank status
+- Sprinkler status
+- Hose status
+
+**Visual System Overview**
+- Optional: Display a visual overview of the System with all pumps, valves and level switches
+
+**Diverse**
+- Alive signal
