@@ -4,7 +4,8 @@ System to control water sprinklers and manage the water reservoir.
 ## Table of Contents
 - [sand-square-sprinkler](#sand-square-sprinkler)
   - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
+  - [System Overview](#system-overview)
+  - [Controller Block Diagram](#controller-block-diagram)
   - [ToDo](#todo)
     - [STM](#stm)
     - [Raspi - Server](#raspi---server)
@@ -12,8 +13,9 @@ System to control water sprinklers and manage the water reservoir.
   - [Requirements](#requirements)
     - [GUI](#gui)
 
-## Overview
+## System Overview
 ![System](SA-SD/overview-1.png)
+## Controller Block Diagram
 ![Block Diagram](SA-SD/overview-2.png)
 
 ## ToDo
