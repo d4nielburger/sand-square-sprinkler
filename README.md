@@ -1,11 +1,13 @@
 # sand-square-sprinkler
 System to control water sprinklers and manage the water reservoir.
+![Artwork](overview-dalle.png)
 
 ## Table of Contents
 - [sand-square-sprinkler](#sand-square-sprinkler)
   - [Table of Contents](#table-of-contents)
   - [System Overview](#system-overview)
   - [Controller Block Diagram](#controller-block-diagram)
+  - [Responsibilities](#responsibilities)
   - [ToDo](#todo)
     - [STM](#stm)
     - [Raspi - Server](#raspi---server)
@@ -17,6 +19,13 @@ System to control water sprinklers and manage the water reservoir.
 ![System](SA-SD/overview-1.png)
 ## Controller Block Diagram
 ![Block Diagram](SA-SD/overview-2.png)
+
+## Responsibilities
+**Bachmann**
+- Server/Client?
+  
+**Burger**
+- STM32
 
 ## ToDo
 - Discuss block diagram with MDC
