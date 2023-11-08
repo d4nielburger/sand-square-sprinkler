@@ -22,25 +22,25 @@ System to control water sprinklers and manage the water reservoir.
 
 ## Responsibilities
 **Bachmann**
-- Server/Client?
+- Webclient
   
 **Burger**
-- STM32
+- Low Level Controller (STM32)
+- Webserver
 
 ## ToDo
-- Discuss block diagram with MDC
 ### STM
 - VirtualComPort Handler
 - Status Signals
 
 ### Raspi - Server
+- Webserver
 - Com Port interface
 - High level controller
 - Database
-- Webserver
 
 ### Webclient
-- GUI Mainpage
+- Draft
 
 ## Requirements
 ### GUI
