@@ -11,7 +11,14 @@ const API_URI = '/sss/api'
 const app = express();
 app.use(bodyParser.json());
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+  cors: {
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+    credentials: true,
+  },
+});
 
 app.use((_, res, next) => {
   res.setHeader('access-control-allow-origin', '*');
