@@ -34,25 +34,25 @@ app.get(`${API_URI}/status`, async (req, res) => {
 app.post(`${API_URI}/control/garage-pump`, async (req, res) => {
   const { state } = req.body;
   const success = await updateStatus('garagePump',state);
-  sendGenericResponse(success);
+  sendGenericResponse(res,success);
 });
 
 app.post(`${API_URI}/control/tank`, async (req, res) => {
   const { select } = req.body;
   const success = await updateStatus('tankSelect',select);
-  sendGenericResponse(success);
+  sendGenericResponse(res,success);
 });
 
 app.post(`${API_URI}/control/hose`, async (req, res) => {
   const { state } = req.body;
   const success = await updateStatus('hose',state);
-  sendGenericResponse(success);
+  sendGenericResponse(res,success);
 });
 
 app.post(`${API_URI}/control/sprinkler`, async (req, res) => {
   const { state } = req.body;
   const success = await updateStatus('sprinkler',state);
-  sendGenericResponse(success);
+  sendGenericResponse(res,success);
 });
 
 server.listen(PORT, () => {
@@ -79,7 +79,7 @@ async function updateStatus(key, newState) {
   }
 }
 
-function sendGenericResponse(success) {
+function sendGenericResponse(res,success) {
   if (success) {
     res.status(200).json({ message: "Request successful" });
   } else {
