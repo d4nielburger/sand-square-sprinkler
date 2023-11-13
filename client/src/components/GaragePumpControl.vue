@@ -18,7 +18,7 @@ export default {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ state: 'ON' }),
+          body: JSON.stringify({ state: 'on' }),
         });
       } catch (error) {
         console.error('Error:', error);
@@ -31,7 +31,7 @@ export default {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ state: 'OFF' }),
+          body: JSON.stringify({ state: 'off' }),
         });
       } catch (error) {
         console.error('Error:', error);
