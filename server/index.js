@@ -9,6 +9,13 @@ const API_URI = '/sss/api'
 const app = express();
 app.use(bodyParser.json());
 
+app.use((_, res, next) => {
+    res.setHeader('access-control-allow-origin', '*');
+    res.setHeader('access-control-allow-headers',
+      'Origin, X-Requested-With, Content-Type, Accept');
+    return next();
+  });
+
 app.get(`${API_URI}/status`, async (req, res) => {
     try {
         const data = await fs.readFile('status.json', 'utf8');
