@@ -28,7 +28,7 @@ typedef enum {
 	SPRINKLER_STOPPED,
 	HOSE_RUNNING,
 	HOSE_STOPPED,
-	NONE
+	NO_STATUS,
 }Status_t;
 
 

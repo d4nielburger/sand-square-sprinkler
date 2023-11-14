@@ -16,7 +16,7 @@ StatusQueue::StatusQueue(size_t queueLength) :
 }
 
 StatusQueueStatus StatusQueue::send(const Status_t &status) {
-	BaseType_t result = xQueueSend(xCommandQueue, &status, ticksToWait);
+	BaseType_t result = xQueueSend(xStatusQueue, &status, ticksToWait);
 	if (result == pdPASS) {
 		return StatusQueueStatus::Success;
 	} else if (result == errQUEUE_FULL) {

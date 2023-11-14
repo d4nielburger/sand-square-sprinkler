@@ -34,8 +34,9 @@ void CommandDirector::directControlCommand(CommandQueue &commandQueue,
 	// pressure water commands
 	if (command == SPRINKLER_START || command == SPRINKLER_STOP
 			|| command == HOSE_START || command == HOSE_STOP
-			|| command == PRESSURE_PUMP_START
-			|| command == PRESSURE_PUMP_STOP) {
+			//|| command == PRESSURE_PUMP_START
+			//|| command == PRESSURE_PUMP_STOP
+			) {
 		pressWaterCmd.send(command);
 	}
 }
