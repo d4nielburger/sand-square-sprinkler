@@ -1,8 +1,8 @@
 <template>
     <div>
       <h3>Sprinkler Control</h3>
-      <button @click="sprinklerOn">Sprinkler On</button>
-      <button @click="sprinklerOff">Sprinkler Off</button>
+      <button class="control-btn" @click="sprinklerOn">Sprinkler On</button>
+      <button class="control-btn" @click="sprinklerOff">Sprinkler Off</button>
     </div>
   </template>
   

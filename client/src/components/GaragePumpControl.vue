@@ -1,8 +1,8 @@
 <template>
   <div>
     <h3>Garage Pump Control</h3>
-    <button @click="pumpOn">Pump On</button>
-    <button @click="pumpOff">Pump Off</button>
+    <button class="control-btn" @click="pumpOn">Pump On</button>
+    <button class="control-btn" @click="pumpOff">Pump Off</button>
   </div>
 </template>
 

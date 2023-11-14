@@ -1,8 +1,8 @@
 <template>
     <div>
       <h3>HoseControl</h3>
-      <button @click="hoseOn">Hose On</button>
-      <button @click="hoseOff">Hose Off</button>
+      <button class="control-btn" @click="hoseOn">Hose On</button>
+      <button class="control-btn" @click="hoseOff">Hose Off</button>
     </div>
   </template>
   

@@ -1,9 +1,9 @@
 <template>
     <div>
       <h3>Tank Fill Selection</h3>
-      <button @click="selectSmall">small</button>
-      <button @click="selectLarge">large</button>
-      <button @click="selectNone">drain</button>
+      <button class="control-btn" @click="selectSmall">small</button>
+      <button class="control-btn" @click="selectLarge">large</button>
+      <button class="control-btn" @click="selectNone">drain</button>
     </div>
   </template>
   
