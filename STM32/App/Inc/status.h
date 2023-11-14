@@ -29,7 +29,7 @@ typedef enum {
 	HOSE_RUNNING,
 	HOSE_STOPPED,
 	NONE
-}Commands_t;
+}Status_t;
 
 
 #endif /* INC_STATUS_H_ */
