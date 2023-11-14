@@ -7,10 +7,11 @@
 
 #include "TankFillControl.hpp"
 
-TankFillControl::TankFillControl(CommandQueue &cmdQueue,
+TankFillControl::TankFillControl(CommandQueue &cmdQueue, StatusQueue &statQueue,
 		DO_24V &vSmallTankInlet, DO_24V &vDrain, DI_24V &swSmallTankFull) :
-		commandQueue(cmdQueue), valveSmallTankInlet(vSmallTankInlet), valveDrain(
-				vDrain), switchSmallTankFull(swSmallTankFull) {
+		commandQueue(cmdQueue), statusQueue(statQueue), valveSmallTankInlet(
+				vSmallTankInlet), valveDrain(vDrain), switchSmallTankFull(
+				swSmallTankFull) {
 	state = INIT;
 }
 
@@ -29,10 +30,13 @@ void TankFillControl::run() {
 
 		if (command == FILL_LARGE_TANK) {
 			state = FILL_LARGE;
+			sendStatus();
 		} else if (command == FILL_NO_TANK) {
 			state = DRAIN;
+			sendStatus();
 		} else {
 			state = FILL_SMALL;
+			sendStatus();
 		}
 		break;
 	case FILL_SMALL:
@@ -46,8 +50,10 @@ void TankFillControl::run() {
 
 		if (command == FILL_LARGE_TANK) {
 			state = FILL_LARGE;
+			sendStatus();
 		} else if (command == FILL_NO_TANK) {
 			state = DRAIN;
+			sendStatus();
 		}
 		break;
 	case FILL_LARGE:
@@ -56,8 +62,10 @@ void TankFillControl::run() {
 
 		if (command == FILL_SMALL_TANK) {
 			state = FILL_SMALL;
+			sendStatus();
 		} else if (command == FILL_NO_TANK) {
 			state = DRAIN;
+			sendStatus();
 		}
 		break;
 	case DRAIN:
@@ -66,12 +74,34 @@ void TankFillControl::run() {
 
 		if (command == FILL_SMALL_TANK) {
 			state = FILL_SMALL;
+			sendStatus();
 		} else if (command == FILL_LARGE_TANK) {
 			state = FILL_LARGE;
+			sendStatus();
 		}
 		break;
 	default:
 		state = INIT;
 		break;
 	}
+}
+
+void TankFillControl::sendStatus() {
+	switch (state) {
+		case INIT:
+			// no status
+			break;
+		case FILL_SMALL:
+			statusQueue.send(SMALL_TANK_SELECTED);
+			break;
+		case FILL_LARGE:
+			statusQueue.send(LARGE_TANK_SELECTED);
+			break;
+		case DRAIN:
+			statusQueue.send(NO_TANK_SELECTED);
+			break;
+		default:
+			// no status
+			break;
+		}
 }

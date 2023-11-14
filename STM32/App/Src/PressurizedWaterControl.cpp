@@ -8,10 +8,11 @@
 #include "PressurizedWaterControl.hpp"
 
 PressurizedWaterControl::PressurizedWaterControl(CommandQueue &cmdQueue,
-		DO_24V &pump, DO_24V &vHose, DO_24V &vSprinkler,
+		StatusQueue &statQueue, DO_24V &pump, DO_24V &vHose, DO_24V &vSprinkler,
 		DI_24V &swSmallTankEmpty) :
-		commandQueue(cmdQueue), pump(pump), valveHose(vHose), valveSprinkler(
-				vSprinkler), switchSmallTankEmpty(swSmallTankEmpty) {
+		commandQueue(cmdQueue), statusQueue(statQueue), pump(pump), valveHose(
+				vHose), valveSprinkler(vSprinkler), switchSmallTankEmpty(
+				swSmallTankEmpty) {
 	state = INIT;
 }
 
@@ -31,10 +32,13 @@ void PressurizedWaterControl::run() {
 
 		if (command == SPRINKLER_START) {
 			state = SPRINKLER;
+			sendStatus();
 		} else if (command == HOSE_START) {
 			state = HOSE;
+			sendStatus();
 		} else {
 			state = OFF;
+			sendStatus();
 		}
 		break;
 	case OFF:
@@ -44,8 +48,10 @@ void PressurizedWaterControl::run() {
 
 		if (command == SPRINKLER_START) {
 			state = SPRINKLER;
+			sendStatus();
 		} else if (command == HOSE_START) {
 			state = HOSE;
+			sendStatus();
 		}
 		break;
 	case SPRINKLER:
@@ -60,15 +66,19 @@ void PressurizedWaterControl::run() {
 
 		if (command == SPRINKLER_STOP) {
 			state = OFF;
+			sendStatus();
 		} else if (command == HOSE_START) {
 			state = HOSE;
+			sendStatus();
 		}
 		break;
 	case HOSE:
 		if (switchSmallTankEmpty.read()) {
 			pump.setOff();
+			sendStatus();
 		} else {
 			pump.setOn();
+			sendStatus();
 		}
 
 		valveSprinkler.setOff();
@@ -76,12 +86,37 @@ void PressurizedWaterControl::run() {
 
 		if (command == HOSE_STOP) {
 			state = OFF;
+			sendStatus();
 		} else if (command == SPRINKLER_START) {
 			state = SPRINKLER;
+			sendStatus();
 		}
 		break;
 	default:
 		state = INIT;
+		break;
+	}
+}
+
+void PressurizedWaterControl::sendStatus() {
+	switch (state) {
+	case INIT:
+		// no status
+		break;
+	case OFF:
+		statusQueue.send(SPRINKLER_STOPPED);
+		statusQueue.send(HOSE_STOPPED);
+		break;
+	case SPRINKLER:
+		statusQueue.send(SPRINKLER_RUNNING);
+		statusQueue.send(HOSE_STOPPED);
+		break;
+	case HOSE:
+		statusQueue.send(SPRINKLER_STOPPED);
+		statusQueue.send(HOSE_RUNNING);
+		break;
+	default:
+		// no status
 		break;
 	}
 }

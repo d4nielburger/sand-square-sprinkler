@@ -10,8 +10,8 @@
 
 #include "DO24V.hpp"
 #include "DI24V.hpp"
-#include "commands.h"
 #include "CommandQueue.hpp"
+#include "StatusQueue.hpp"
 
 class PressurizedWaterControl {
 private:
@@ -21,15 +21,17 @@ private:
 
 	FsmStates_t state;
 	CommandQueue &commandQueue;
+	StatusQueue &statusQueue;
 	DO_24V &pump;
 	DO_24V &valveHose;
 	DO_24V &valveSprinkler;
 	DI_24V &switchSmallTankEmpty;
 
 public:
-	PressurizedWaterControl(CommandQueue &cmdQueue, DO_24V &pump, DO_24V &vHose,
+	PressurizedWaterControl(CommandQueue &cmdQueue, StatusQueue &statQueue, DO_24V &pump, DO_24V &vHose,
 			DO_24V &vSprinkler, DI_24V &swSmallTankEmpty);
 	void run();
+	void sendStatus();
 };
 
 #endif /* SRC_PRESSURIZEDWATERCONTROL_HPP_ */

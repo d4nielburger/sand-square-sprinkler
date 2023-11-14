@@ -7,8 +7,8 @@
 
 #include "GaragePumpControl.hpp"
 
-GaragePumpControl::GaragePumpControl(CommandQueue &commandQueue, DO_24V &pump) :
-		commandQueue(commandQueue), pump(pump) {
+GaragePumpControl::GaragePumpControl(CommandQueue &commandQueue, StatusQueue &statQueue, DO_24V &pump) :
+		commandQueue(commandQueue), statusQueue(statQueue), pump(pump) {
 	state = INIT;
 }
 
@@ -23,8 +23,10 @@ void GaragePumpControl::run() {
 	case INIT:
 		if (command == GARAGE_PUMP_STOP) {
 			state = OFF;
+			sendStatus();
 		} else {
 			state = ON;
+			sendStatus();
 		}
 		break;
 	case ON:
@@ -32,6 +34,7 @@ void GaragePumpControl::run() {
 
 		if (command == GARAGE_PUMP_STOP) {
 			state = OFF;
+			sendStatus();
 		}
 		break;
 	case OFF:
@@ -39,6 +42,7 @@ void GaragePumpControl::run() {
 
 		if (command == GARAGE_PUMP_STOP) {
 			state = ON;
+			sendStatus();
 		}
 		break;
 	default:
@@ -46,4 +50,21 @@ void GaragePumpControl::run() {
 		break;
 	}
 
+}
+
+void GaragePumpControl::sendStatus() {
+	switch (state) {
+		case INIT:
+			// No status
+			break;
+		case ON:
+			statusQueue.send(GARAGE_PUMP_RUNNING);
+			break;
+		case OFF:
+			statusQueue.send(GARAGE_PUMP_STOPPED);
+			break;
+		default:
+			// No status
+			break;
+		}
 }

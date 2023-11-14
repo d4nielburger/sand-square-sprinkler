@@ -9,8 +9,8 @@
 #define SRC_GARAGEPUMPCONTROL_HPP_
 
 #include "DO24V.hpp"
-#include "commands.h"
 #include "CommandQueue.hpp"
+#include "StatusQueue.hpp"
 
 class GaragePumpControl {
 private:
@@ -20,11 +20,13 @@ private:
 
 	FsmStates_t state;
 	CommandQueue &commandQueue;
+	StatusQueue &statusQueue;
 	DO_24V &pump;
 
 public:
-	GaragePumpControl(CommandQueue &commandQueue, DO_24V &pump);
+	GaragePumpControl(CommandQueue &commandQueue, StatusQueue &statQueue, DO_24V &pump);
 	void run();
+	void sendStatus();
 };
 
 #endif /* SRC_GARAGEPUMPCONTROL_HPP_ */
