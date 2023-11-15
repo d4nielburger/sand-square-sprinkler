@@ -88,7 +88,7 @@ void PressurizedWaterControl::run() {
 		break;
 	}
 
-	if (command != NONE || state != oldState) {
+	if (command != NONE) {
 		sendStatus();
 	}
 }
