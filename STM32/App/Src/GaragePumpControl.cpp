@@ -40,7 +40,7 @@ void GaragePumpControl::run() {
 	case OFF:
 		pump.setOff();
 
-		if (command == GARAGE_PUMP_STOP) {
+		if (command == GARAGE_PUMP_START) {
 			state = ON;
 			sendStatus();
 		}

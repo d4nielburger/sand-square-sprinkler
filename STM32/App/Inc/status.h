@@ -31,5 +31,23 @@ typedef enum {
 	NO_STATUS,
 }Status_t;
 
+typedef struct {
+    const char* statusString;
+    Status_t statusEnum;
+} StatusMap_t;
+
+static const StatusMap_t statusMap[] = {
+    {GARAGE_PUMP_RUNNING_STR, GARAGE_PUMP_RUNNING},
+    {GARAGE_PUMP_STOPPED_STR, GARAGE_PUMP_STOPPED},
+    {LARGE_TANK_SELECTED_STR, LARGE_TANK_SELECTED},
+    {SMALL_TANK_SELECTED_STR, SMALL_TANK_SELECTED},
+    {NO_TANK_SELECTED_STR, NO_TANK_SELECTED},
+    {SPRINKLER_RUNNING_STR, SPRINKLER_RUNNING},
+    {SPRINKLER_STOPPED_STR, SPRINKLER_STOPPED},
+    {HOSE_RUNNING_STR, HOSE_RUNNING},
+    {HOSE_STOPPED_STR, HOSE_STOPPED},
+    {NULL, NO_STATUS}
+};
+
 
 #endif /* INC_STATUS_H_ */

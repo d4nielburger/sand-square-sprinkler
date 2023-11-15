@@ -8,6 +8,8 @@
 #ifndef APP_INC_UART_H_
 #define APP_INC_UART_H_
 
+#define UART_BUF_LEN 128
+
 #include "stddef.h"
 
 #ifdef __cplusplus
@@ -24,7 +26,7 @@ void uart_init(void);
  */
 size_t uart_read(char * const buf, size_t n);
 
-void uart_send(char * const buf, size_t n);
+void uart_send(const char* buf, size_t n);
 void uart_send_cr();
 void uart_send_nl();
 

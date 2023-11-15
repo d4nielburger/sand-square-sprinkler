@@ -68,7 +68,7 @@ void uart_init(void) {
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
 }
 
-void uart_send(char *const buf, size_t n) {
+void uart_send(const char* buf, size_t n) {
 	HAL_UART_Transmit(&huart2, buf, n, portMAX_DELAY);
 }
 

@@ -75,10 +75,8 @@ void PressurizedWaterControl::run() {
 	case HOSE:
 		if (switchSmallTankEmpty.read()) {
 			pump.setOff();
-			sendStatus();
 		} else {
 			pump.setOn();
-			sendStatus();
 		}
 
 		valveSprinkler.setOff();
