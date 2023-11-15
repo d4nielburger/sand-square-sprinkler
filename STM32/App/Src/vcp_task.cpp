@@ -69,6 +69,8 @@ void processCommand(const char *buf) {
 			return;
 		}
 	}
+
+	statusQueue->send(ERROR_UNKNOWN_CMD);
 }
 
 void sendStatus(Status_t status) {
