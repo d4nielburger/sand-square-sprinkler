@@ -19,14 +19,14 @@ void GaragePumpControl::run() {
 		command = NONE;
 	}
 
+	FsmStates_t oldState = state;
+
 	switch (state) {
 	case INIT:
 		if (command == GARAGE_PUMP_STOP) {
 			state = OFF;
-			sendStatus();
 		} else {
 			state = ON;
-			sendStatus();
 		}
 		break;
 	case ON:
@@ -34,7 +34,6 @@ void GaragePumpControl::run() {
 
 		if (command == GARAGE_PUMP_STOP) {
 			state = OFF;
-			sendStatus();
 		}
 		break;
 	case OFF:
@@ -42,7 +41,6 @@ void GaragePumpControl::run() {
 
 		if (command == GARAGE_PUMP_START) {
 			state = ON;
-			sendStatus();
 		}
 		break;
 	default:
@@ -50,6 +48,9 @@ void GaragePumpControl::run() {
 		break;
 	}
 
+	if (command != NONE || state != oldState) {
+		sendStatus();
+	}
 }
 
 void GaragePumpControl::sendStatus() {

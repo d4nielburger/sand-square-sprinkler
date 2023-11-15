@@ -22,6 +22,8 @@ void TankFillControl::run() {
 		command = NONE;
 	}
 
+	FsmStates_t oldState = state;
+
 	// FSM
 	switch (state) {
 	case INIT:
@@ -30,13 +32,10 @@ void TankFillControl::run() {
 
 		if (command == FILL_LARGE_TANK) {
 			state = FILL_LARGE;
-			sendStatus();
 		} else if (command == FILL_NO_TANK) {
 			state = DRAIN;
-			sendStatus();
 		} else {
 			state = FILL_SMALL;
-			sendStatus();
 		}
 		break;
 	case FILL_SMALL:
@@ -50,10 +49,8 @@ void TankFillControl::run() {
 
 		if (command == FILL_LARGE_TANK) {
 			state = FILL_LARGE;
-			sendStatus();
 		} else if (command == FILL_NO_TANK) {
 			state = DRAIN;
-			sendStatus();
 		}
 		break;
 	case FILL_LARGE:
@@ -62,10 +59,8 @@ void TankFillControl::run() {
 
 		if (command == FILL_SMALL_TANK) {
 			state = FILL_SMALL;
-			sendStatus();
 		} else if (command == FILL_NO_TANK) {
 			state = DRAIN;
-			sendStatus();
 		}
 		break;
 	case DRAIN:
@@ -74,15 +69,17 @@ void TankFillControl::run() {
 
 		if (command == FILL_SMALL_TANK) {
 			state = FILL_SMALL;
-			sendStatus();
 		} else if (command == FILL_LARGE_TANK) {
 			state = FILL_LARGE;
-			sendStatus();
 		}
 		break;
 	default:
 		state = INIT;
 		break;
+	}
+
+	if (command != NONE || state != oldState) {
+		sendStatus();
 	}
 }
 

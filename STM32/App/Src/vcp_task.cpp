@@ -33,6 +33,8 @@ void vcpTask(void *arguments) {
 		uart_send_cr();
 	}
 
+	commandQueue->send(GET_STATUS_ALL);
+
 	for (;;) {
 		handleCommand();
 		handleStatus();

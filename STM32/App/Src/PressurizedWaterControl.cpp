@@ -23,6 +23,8 @@ void PressurizedWaterControl::run() {
 		command = NONE;
 	}
 
+	FsmStates_t oldState = state;
+
 	// FSM
 	switch (state) {
 	case INIT:
@@ -32,13 +34,10 @@ void PressurizedWaterControl::run() {
 
 		if (command == SPRINKLER_START) {
 			state = SPRINKLER;
-			sendStatus();
 		} else if (command == HOSE_START) {
 			state = HOSE;
-			sendStatus();
 		} else {
 			state = OFF;
-			sendStatus();
 		}
 		break;
 	case OFF:
@@ -48,10 +47,8 @@ void PressurizedWaterControl::run() {
 
 		if (command == SPRINKLER_START) {
 			state = SPRINKLER;
-			sendStatus();
 		} else if (command == HOSE_START) {
 			state = HOSE;
-			sendStatus();
 		}
 		break;
 	case SPRINKLER:
@@ -66,10 +63,8 @@ void PressurizedWaterControl::run() {
 
 		if (command == SPRINKLER_STOP) {
 			state = OFF;
-			sendStatus();
 		} else if (command == HOSE_START) {
 			state = HOSE;
-			sendStatus();
 		}
 		break;
 	case HOSE:
@@ -84,15 +79,17 @@ void PressurizedWaterControl::run() {
 
 		if (command == HOSE_STOP) {
 			state = OFF;
-			sendStatus();
 		} else if (command == SPRINKLER_START) {
 			state = SPRINKLER;
-			sendStatus();
 		}
 		break;
 	default:
 		state = INIT;
 		break;
+	}
+
+	if (command != NONE || state != oldState) {
+		sendStatus();
 	}
 }
 

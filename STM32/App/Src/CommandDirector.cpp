@@ -20,6 +20,13 @@ void CommandDirector::directControlCommand(CommandQueue &commandQueue,
 		command = NONE;
 	}
 
+	// Update all statuses
+	if (command == GET_STATUS_ALL) {
+		garagePumpCmd.send(command);
+		tankFillCmd.send(command);
+		pressWaterCmd.send(command);
+	}
+
 	// garage pump commands
 	if (command == GARAGE_PUMP_START || command == GARAGE_PUMP_STOP) {
 		garagePumpCmd.send(command);
