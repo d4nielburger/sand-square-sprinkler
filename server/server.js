@@ -1,12 +1,11 @@
 const express = require('express');
 const http = require('http')
 const bodyParser = require('body-parser');
-const fs = require('fs').promises;
 const socketIO = require('socket.io');
+const { BASE_URI, SERVER_PORT} = require('./config');
 
 // Config
-const PORT = 3000;
-const API_URI = '/sss/api'
+const API_URI = `${BASE_URI}/api`;
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,8 +41,8 @@ app.get(`${API_URI}/status`, async (req, res) => {
 const controlRoutes = require('./routes/controlRoutes');
 app.use(`${API_URI}/control`, controlRoutes);
 
-server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+server.listen(SERVER_PORT, () => {
+  console.log(`Server listening on port ${SERVER_PORT}`);
 });
 
 module.exports = io;

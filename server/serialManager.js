@@ -1,10 +1,12 @@
 const serialPort = require('serialport');
 const readline = require('@serialport/parser-readline');
+const { SERIAL_PORT, SERIAL_BAUD } = require('./config');
+const { SERIAL_UPDATE_INTERV, SERIAL_RECON_INTERV } = require('./config');
 let serialEventCallback;
 
 const port = new serialPort.SerialPort({
-    path: '/dev/ttyACM0',
-    baudRate: 115200
+    path: SERIAL_PORT,
+    baudRate: SERIAL_BAUD
 });
 
 const parser = port.pipe(new readline.ReadlineParser({ delimiter: '\n\r' }));
@@ -51,7 +53,7 @@ function reconnectSerialPort() {
                 }
             });
         }
-    }, 2000);
+    }, SERIAL_RECON_INTERV);
 }
 
 function setSerialEventCallback(callback) {
@@ -112,6 +114,6 @@ function getStatusUpdate() {
     sendSerialCommand('GET_STATUS_ALL\r');
 }
 
-setInterval(getStatusUpdate, 1000);
+setInterval(getStatusUpdate, SERIAL_RECON_INTERV);
 
 module.exports = { sendSerialCommand, setSerialEventCallback, status };
