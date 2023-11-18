@@ -87,7 +87,7 @@ void USART2_IRQHandler(void) {
 		/* get the character received */
 		char ch = (uint8_t) (huart2.Instance->DR);
 		/*/ echo ch via TxD */
-		huart2.Instance->DR = ch;
+		//huart2.Instance->DR = ch;
 		putChar(ch);
 	}
 }
