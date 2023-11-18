@@ -2,12 +2,12 @@ const serialPort = require('serialport');
 const readline = require('@serialport/parser-readline');
 let serialEventCallback;
 
-const port = new serialPort.SerialPort({ 
-    path:'/dev/ttyACM0',
+const port = new serialPort.SerialPort({
+    path: '/dev/ttyACM0',
     baudRate: 115200
 });
 
-const parser = port.pipe(new readline.ReadlineParser({delimiter: '\n\r'}));
+const parser = port.pipe(new readline.ReadlineParser({ delimiter: '\n\r' }));
 
 const status = {
     garagePump: '',
@@ -32,7 +32,7 @@ function setSerialEventCallback(callback) {
     serialEventCallback = callback;
 }
 
-function sendSerialCommand (command) {
+function sendSerialCommand(command) {
     port.write(command, (err) => {
         if (err) {
             console.log('Error writing to serial:', err.message);
@@ -73,5 +73,11 @@ function updateStatusFromSerial(data) {
             console.log(`Unknown status received: ${data}`);
     }
 }
+
+function getStatusUpdate() {
+    sendSerialCommand('GET_STATUS_ALL\r');
+}
+
+setInterval(getStatusUpdate, 1000);
 
 module.exports = { sendSerialCommand, setSerialEventCallback, status };
