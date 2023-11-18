@@ -3,7 +3,6 @@ const http = require('http')
 const bodyParser = require('body-parser');
 const fs = require('fs').promises;
 const socketIO = require('socket.io');
-
 // Config
 const PORT = 3000;
 const API_URI = '/sss/api'
@@ -20,6 +19,14 @@ const io = socketIO(server, {
   },
 });
 
+function emitStatusUpdate() {
+  io.emit('status_update_available');
+}
+
+const { setSerialEventCallback , status} = require('./serialManager');
+
+setSerialEventCallback(emitStatusUpdate);
+
 app.use((_, res, next) => {
   res.setHeader('access-control-allow-origin', '*');
   res.setHeader('access-control-allow-headers',
@@ -28,39 +35,20 @@ app.use((_, res, next) => {
 });
 
 app.get(`${API_URI}/status`, async (req, res) => {
-  try {
+/*   try {
     const data = await fs.readFile('status.json', 'utf8');
     const status = JSON.parse(data);
     res.status(200).json(status);
   } catch (error) {
     console.error("Error reading status.json:", error);
     res.status(500).send('Server error');
-  }
+  } */
+
+   res.status(200).json(status);
 });
 
-app.post(`${API_URI}/control/garage-pump`, async (req, res) => {
-  const { state } = req.body;
-  const success = await updateStatus('garagePump',state);
-  sendGenericResponse(res,success);
-});
-
-app.post(`${API_URI}/control/tank`, async (req, res) => {
-  const { select } = req.body;
-  const success = await updateStatus('tankSelect',select);
-  sendGenericResponse(res,success);
-});
-
-app.post(`${API_URI}/control/hose`, async (req, res) => {
-  const { state } = req.body;
-  const success = await updateStatus('hose',state);
-  sendGenericResponse(res,success);
-});
-
-app.post(`${API_URI}/control/sprinkler`, async (req, res) => {
-  const { state } = req.body;
-  const success = await updateStatus('sprinkler',state);
-  sendGenericResponse(res,success);
-});
+const controlRoutes = require('./routes/controlRoutes');
+app.use(`${API_URI}/control`, controlRoutes);
 
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
@@ -93,3 +81,5 @@ function sendGenericResponse(res,success) {
     res.status(500).send('Server error');
   }  
 }
+
+module.exports = io;
