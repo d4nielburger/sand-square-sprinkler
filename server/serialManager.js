@@ -20,6 +20,15 @@ port.on('open', () => {
     console.log('Serial Port Open');
 });
 
+port.on('error', (err) => {
+    console.error('***Serial Port Error:', err.message);
+});
+
+port.on('close', () => {
+    console.log('Serial Port Disconnected');
+    reconnectSerialPort();
+});
+
 parser.on('data', (data) => {
     console.log('Data from STM32:', data);
     updateStatusFromSerial(data);
@@ -28,16 +37,37 @@ parser.on('data', (data) => {
     }
 });
 
+function reconnectSerialPort() {
+    console.log('Attempting to reconnect to the serial port...');
+
+    setTimeout(() => {
+        if (! port.isOpen){
+            port.open((err) => {
+                if (err) {
+                    console.error('Failed to reopen the serial port:', err.message);
+                    reconnectSerialPort();
+                } else {
+                    console.log('Serial port reconnected.');
+                }
+            });
+        }
+    }, 2000);
+}
+
 function setSerialEventCallback(callback) {
     serialEventCallback = callback;
 }
 
 function sendSerialCommand(command) {
-    port.write(command, (err) => {
-        if (err) {
-            console.log('Error writing to serial:', err.message);
-        }
-    });
+    if (port.isOpen) {
+        port.write(command, (err) => {
+            if (err) {
+                console.error('***ERROR writing to serial:', err.message);
+            }
+        });
+    } else {
+        console.error('Serial port not open. Cannot send command:', command);
+    }
 }
 
 function updateStatusFromSerial(data) {
@@ -69,8 +99,12 @@ function updateStatusFromSerial(data) {
         case 'HOSE_STOPPED':
             status.hose = 'off';
             break;
+        case 'ERROR_UNKNOWN_CMD':
+            console.error(`***ERROR received from STM: ${data}`);
+            break;
         default:
-            console.log(`Unknown status received: ${data}`);
+            console.error(`Unknown status received: ${data}`);
+            break;
     }
 }
 
