@@ -21,6 +21,20 @@ a,
   padding: 1ex;
 }
 
+.control-btn-green{
+  margin-right: 1ex;
+  margin-bottom: 1ex;
+  padding: 1ex;
+  background-color: green;
+}
+
+.control-btn-red{
+  margin-right: 1ex;
+  margin-bottom: 1ex;
+  padding: 1ex;
+  background-color: red;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);

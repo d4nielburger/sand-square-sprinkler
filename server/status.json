@@ -1,6 +1,6 @@
 {
   "garagePump": "on",
   "tankSelect": "none",
-  "sprinkler": "off",
-  "hose": "off"
+  "sprinkler": "on",
+  "hose": "on"
 }
