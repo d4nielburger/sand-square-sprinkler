@@ -39,6 +39,9 @@ System to control water sprinklers and manage the water reservoir.
 ### Webclient
 - Draft
 
+### Carrier PCB
+- Seperate Power Supply for STM 
+
 ## Requirements
 ### GUI
 **Controls**
