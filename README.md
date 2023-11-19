@@ -30,14 +30,11 @@ System to control water sprinklers and manage the water reservoir.
 
 ## ToDo
 ### STM
-- VirtualComPort Handler
-- Status Signals
+- Additional features..
 
 ### Raspi - Server
-- Webserver
-- Com Port interface
-- High level controller
-- Database
+- Make client webpage available via server
+- Implement database to store logs
 
 ### Webclient
 - Draft
