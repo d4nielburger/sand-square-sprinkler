@@ -35,9 +35,11 @@ System to control water sprinklers and manage the water reservoir.
 ### Raspi - Server
 - Make client webpage available via server
 - Implement database to store logs
+- Set Sprinkler for a specific time
 
 ### Webclient
-- Draft
+- UI Design optimized for tablet/smartphone
+- Set Sprinkler for a specific time
 
 ### Carrier PCB
 - Seperate Power Supply for STM 
