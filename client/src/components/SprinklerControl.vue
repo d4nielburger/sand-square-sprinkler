@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <h3>Sprinkler Control</h3>
+    <div style="text-align: center;">
+      <h3 class="control-heading">Sprinkler Control</h3>
       <button :class="{ 'control-btn-green': status.sprinkler === 'on', 'control-btn-red': status.sprinkler === 'off' }" @click="toggleSprinkler">
         {{ status.sprinkler === 'on' ? 'Turn OFF Sprinkler' : 'Turn ON Sprinkler' }}
       </button>

@@ -15,24 +15,56 @@ a,
   transition: 0.4s;
 }
 
+
 .control-btn{
   margin-right: 1ex;
   margin-bottom: 1ex;
-  padding: 1ex;
+  background-color: white;
+  border: none;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 5px;
+  cursor: pointer;
+  border-radius: 12px;
 }
 
 .control-btn-green{
   margin-right: 1ex;
   margin-bottom: 1ex;
-  padding: 1ex;
-  background-color: green;
+  background-color: #04AA6D;
+  border: none;
+  padding: 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 5px;
+  cursor: pointer;
+  border-radius: 12px;
+  
 }
 
 .control-btn-red{
   margin-right: 1ex;
   margin-bottom: 1ex;
-  padding: 1ex;
-  background-color: red;
+  background-color: #eb3d34;
+  border: none;
+  padding: 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 5px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.control-heading{
+  text-align: center;
+  font-size: 25px;
 }
 
 @media (hover: hover) {

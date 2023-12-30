@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <h3>HoseControl</h3>
+    <div style="text-align: center;">
+      <h3 class="control-heading">Hose Control</h3>
       <button :class="{ 'control-btn-green': status.hose === 'on', 'control-btn-red': status.hose === 'off' }" @click="toggleHose">
         {{ status.hose === 'on' ? 'Turn OFF Hose' : 'Turn ON Hose' }}
       </button>

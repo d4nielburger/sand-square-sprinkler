@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <h3>Tank Fill Selection</h3>
+    <div style="text-align: center;">
+      <h3 class="control-heading">Tank Fill Selection</h3>
       <button :class="{ 'control-btn-green': status.tankSelect === 'small', 'control-btn': status.tankSelect === 'none' || 'large' }" @click="selectSmall">
         small
       </button>

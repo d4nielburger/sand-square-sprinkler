@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h3>Garage Pump Control</h3>
+  <div style="text-align: center;">
+    <h3 class="control-heading">Garage Pump Control</h3>
     <button  :class="{ 'control-btn-green': status.garagePump === 'on', 'control-btn-red': status.garagePump === 'off' }" @click="togglePump">
       {{ status.garagePump === 'on' ? 'Turn OFF Garage Pump' : 'Turn ON Garage Pump' }}
     </button>
