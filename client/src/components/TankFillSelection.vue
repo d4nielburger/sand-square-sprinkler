@@ -86,8 +86,5 @@
     },
   };
   </script>
-  
-  <style scoped>
-  /* Your CSS here */
-  </style>
+
   
