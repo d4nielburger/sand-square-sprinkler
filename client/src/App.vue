@@ -3,19 +3,20 @@ import GaragePumpControl from './components/GaragePumpControl.vue';
 import TankFillSelection from './components/TankFillSelection.vue';
 import SprinklerControl from './components/SprinklerControl.vue';
 import HoseControl from './components/HoseControl.vue';
-import StatusDisplay from './components/StatusDisplay.vue';
 </script>
 
 <template>
   <div id="app">
-    <div class="main-element">
-      <StatusDisplay/>
-    </div>
     <div id="control" class="main-element">
-      <h2>Controls</h2>
+      <h2 style="text-align: center; font-size: 40px; font-weight: bold;">Controls</h2>
+      <br>
+      <br>
       <GaragePumpControl/>
+      <br>
       <TankFillSelection/>
+      <br>
       <SprinklerControl/>
+      <br>
       <HoseControl/>
     </div>
   </div>
