@@ -87,7 +87,7 @@ function updateStatusFromSerial(data) {
             status.tank = 'small';
             break;
         case 'NO_TANK_SELECTED':
-            status.tank = 'drain';
+            status.tank = 'none';
             break;
         case 'SPRINKLER_RUNNING':
             status.sprinkler = 'on';
