@@ -1,6 +1,6 @@
 # sand-square-sprinkler
 System to control water sprinklers and manage the water reservoir.
-![Artwork](overview-dalle.png)
+![Artwork](./doc/overview-dalle.png)
 
 ## Table of Contents
 - [sand-square-sprinkler](#sand-square-sprinkler)
@@ -12,6 +12,7 @@ System to control water sprinklers and manage the water reservoir.
     - [STM](#stm)
     - [Raspi - Server](#raspi---server)
     - [Webclient](#webclient)
+    - [Carrier PCB](#carrier-pcb)
   - [Requirements](#requirements)
     - [GUI](#gui)
 
