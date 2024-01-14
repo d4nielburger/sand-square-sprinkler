@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http')
 const bodyParser = require('body-parser');
 const socketIO = require('socket.io');
+const path = require('path')
 const { BASE_URI, SERVER_PORT, CLIENT_PATH} = require('./config');
 const API_URI = `${BASE_URI}/api`;
 
