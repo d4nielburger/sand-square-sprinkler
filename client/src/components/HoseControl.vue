@@ -4,6 +4,9 @@
       <button :class="{ 'control-btn-green': status.hose === 'on', 'control-btn-red': status.hose === 'off' }" @click="toggleHose">
         {{ status.hose === 'on' ? 'Turn OFF Hose' : 'Turn ON Hose' }}
       </button>
+      <div v-if="error" class="error-message">
+      {{ error }}
+      </div>
     </div>
   </template>
   
@@ -15,6 +18,7 @@
     data() {
         return {
             status: {},
+            error: null, // Add error property
         }
     },
     mounted() {
@@ -54,16 +58,20 @@
         }
       },
       async fetchStatus() {
-          try {
-              const response = await fetch('http://localhost:3000/sss/api/status');
-              if (response.ok) {
-                  this.status = await response.json();
-              } else {
-                  console.error('Failed to get status');
-              }
-          } catch (error) {
-              console.error('Error fetching status:', error);
+        try {
+          const response = await fetch('http://localhost:3000/sss/api/status');
+          if (response.ok) {
+              this.status = await response.json();
+              this.error = null; // Reset error on successful fetch
+          } else {
+              console.error('Failed to get status');
+              this.error = 'Failed to fetch status. Please try again later.';
           }
+        } catch (error) {
+            console.error('Error fetching status:', error);
+            this.error = 'Error fetching status. Please check your network connection.';
+
+        }
       },
     },
   };

@@ -8,7 +8,7 @@ import HoseControl from './components/HoseControl.vue';
 <template>
   <div id="app">
     <div id="control" class="main-element">
-      <h2 style="text-align: center; font-size: 40px; font-weight: bold;">Controls</h2>
+      <h2 style="text-align: center; font-size: 40px; font-weight: bold;">Sand Square Sprinkler</h2>
       <br>
       <br>
       <GaragePumpControl/>
