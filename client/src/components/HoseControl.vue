@@ -11,7 +11,7 @@
   </template>
   
   <script>
-  const API_URI = 'http://localhost:3000/sss/api';
+  const API_URI = '/sss/api';
   import io from 'socket.io-client';
   
   export default {
@@ -24,7 +24,7 @@
     mounted() {
         this.fetchStatus();
 
-        const socket = io('http://localhost:3000');
+        const socket = io();
         socket.on('status_update_available', () => {
             this.fetchStatus();
         });

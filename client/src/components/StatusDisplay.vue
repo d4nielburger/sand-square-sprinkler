@@ -17,7 +17,7 @@ export default {
     mounted() {
         this.fetchStatus();
 
-        const socket = io('http://localhost:3000');
+        const socket = io();
         socket.on('status_update_available', () => {
             this.fetchStatus();
         });
@@ -25,7 +25,7 @@ export default {
     methods: {
         async fetchStatus() {
             try {
-                const response = await fetch('http://localhost:3000/sss/api/status');
+                const response = await fetch('/sss/api/status');
                 if (response.ok) {
                     this.status = await response.json();
                 } else {
