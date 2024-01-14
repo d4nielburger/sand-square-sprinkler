@@ -3,11 +3,13 @@ const http = require('http')
 const bodyParser = require('body-parser');
 const socketIO = require('socket.io');
 const { BASE_URI, SERVER_PORT} = require('./config');
-
-// Config
 const API_URI = `${BASE_URI}/api`;
 
 const app = express();
+
+// Static hosting of client page
+app.use(express.static('../dist'));
+
 app.use(bodyParser.json());
 const server = http.createServer(app);
 const io = socketIO(server, {
