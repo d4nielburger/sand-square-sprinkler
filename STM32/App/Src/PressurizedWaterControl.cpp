@@ -8,10 +8,11 @@
 #include "PressurizedWaterControl.hpp"
 
 PressurizedWaterControl::PressurizedWaterControl(CommandQueue &cmdQueue,
-		DO_24V &pump, DO_24V &vHose, DO_24V &vSprinkler,
+		StatusQueue &statQueue, DO_24V &pump, DO_24V &vHose, DO_24V &vSprinkler,
 		DI_24V &swSmallTankEmpty) :
-		commandQueue(cmdQueue), pump(pump), valveHose(vHose), valveSprinkler(
-				vSprinkler), switchSmallTankEmpty(swSmallTankEmpty) {
+		commandQueue(cmdQueue), statusQueue(statQueue), pump(pump), valveHose(
+				vHose), valveSprinkler(vSprinkler), switchSmallTankEmpty(
+				swSmallTankEmpty) {
 	state = INIT;
 }
 
@@ -21,6 +22,8 @@ void PressurizedWaterControl::run() {
 	if (commandQueue.receive(command) != CommandQueueStatus::Success) {
 		command = NONE;
 	}
+
+	FsmStates_t oldState = state;
 
 	// FSM
 	switch (state) {
@@ -82,6 +85,33 @@ void PressurizedWaterControl::run() {
 		break;
 	default:
 		state = INIT;
+		break;
+	}
+
+	if (command != NONE) {
+		sendStatus();
+	}
+}
+
+void PressurizedWaterControl::sendStatus() {
+	switch (state) {
+	case INIT:
+		// no status
+		break;
+	case OFF:
+		statusQueue.send(SPRINKLER_STOPPED);
+		statusQueue.send(HOSE_STOPPED);
+		break;
+	case SPRINKLER:
+		statusQueue.send(SPRINKLER_RUNNING);
+		statusQueue.send(HOSE_STOPPED);
+		break;
+	case HOSE:
+		statusQueue.send(SPRINKLER_STOPPED);
+		statusQueue.send(HOSE_RUNNING);
+		break;
+	default:
+		// no status
 		break;
 	}
 }

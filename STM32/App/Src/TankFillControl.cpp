@@ -7,10 +7,11 @@
 
 #include "TankFillControl.hpp"
 
-TankFillControl::TankFillControl(CommandQueue &cmdQueue,
+TankFillControl::TankFillControl(CommandQueue &cmdQueue, StatusQueue &statQueue,
 		DO_24V &vSmallTankInlet, DO_24V &vDrain, DI_24V &swSmallTankFull) :
-		commandQueue(cmdQueue), valveSmallTankInlet(vSmallTankInlet), valveDrain(
-				vDrain), switchSmallTankFull(swSmallTankFull) {
+		commandQueue(cmdQueue), statusQueue(statQueue), valveSmallTankInlet(
+				vSmallTankInlet), valveDrain(vDrain), switchSmallTankFull(
+				swSmallTankFull) {
 	state = INIT;
 }
 
@@ -20,6 +21,8 @@ void TankFillControl::run() {
 	if (commandQueue.receive(command) != CommandQueueStatus::Success) {
 		command = NONE;
 	}
+
+	FsmStates_t oldState = state;
 
 	// FSM
 	switch (state) {
@@ -74,4 +77,28 @@ void TankFillControl::run() {
 		state = INIT;
 		break;
 	}
+
+	if (command != NONE) {
+		sendStatus();
+	}
+}
+
+void TankFillControl::sendStatus() {
+	switch (state) {
+		case INIT:
+			// no status
+			break;
+		case FILL_SMALL:
+			statusQueue.send(SMALL_TANK_SELECTED);
+			break;
+		case FILL_LARGE:
+			statusQueue.send(LARGE_TANK_SELECTED);
+			break;
+		case DRAIN:
+			statusQueue.send(NO_TANK_SELECTED);
+			break;
+		default:
+			// no status
+			break;
+		}
 }

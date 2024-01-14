@@ -20,6 +20,13 @@ void CommandDirector::directControlCommand(CommandQueue &commandQueue,
 		command = NONE;
 	}
 
+	// Update all statuses
+	if (command == GET_STATUS_ALL) {
+		garagePumpCmd.send(command);
+		tankFillCmd.send(command);
+		pressWaterCmd.send(command);
+	}
+
 	// garage pump commands
 	if (command == GARAGE_PUMP_START || command == GARAGE_PUMP_STOP) {
 		garagePumpCmd.send(command);
@@ -34,8 +41,9 @@ void CommandDirector::directControlCommand(CommandQueue &commandQueue,
 	// pressure water commands
 	if (command == SPRINKLER_START || command == SPRINKLER_STOP
 			|| command == HOSE_START || command == HOSE_STOP
-			|| command == PRESSURE_PUMP_START
-			|| command == PRESSURE_PUMP_STOP) {
+			//|| command == PRESSURE_PUMP_START
+			//|| command == PRESSURE_PUMP_STOP
+			) {
 		pressWaterCmd.send(command);
 	}
 }

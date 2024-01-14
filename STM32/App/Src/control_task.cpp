@@ -22,7 +22,7 @@
 #include "PressurizedWaterControl.hpp"
 #include "CommandDirector.hpp"
 #include "CommandQueue.hpp"
-#include "commands.h" //Test
+#include "Queues.hpp"
 
 #define LOCAL_COMMAND_QUEUE_LENGTH 5
 
@@ -47,8 +47,10 @@ static CommandDirector commandDirector;
 // ========================= control task =====================================
 
 void controlTask(void *argument) {
-	// Get command queue from task argument
-	CommandQueue* commandQueue = static_cast<CommandQueue*>(argument);
+	// Get queues from task argument
+	Queues * queues = static_cast<Queues*>(argument);
+	CommandQueue *commandQueue = queues->commandQueue;
+	StatusQueue *statusQueue= queues->statusQueue;
 
 	// Initialize local command queues
 	CommandQueue garagePumpCmds(LOCAL_COMMAND_QUEUE_LENGTH);
@@ -56,10 +58,10 @@ void controlTask(void *argument) {
 	CommandQueue pressWaterCmds(LOCAL_COMMAND_QUEUE_LENGTH);
 
 	// Initialize controllers
-	GaragePumpControl garagePumpControl(garagePumpCmds, garagePump);
-	TankFillControl tankFillControl(tankFillCmds, valveSmallTankInlet,
+	GaragePumpControl garagePumpControl(garagePumpCmds, *statusQueue, garagePump);
+	TankFillControl tankFillControl(tankFillCmds, *statusQueue, valveSmallTankInlet,
 			valveDrain, switchSmallTankFull);
-	PressurizedWaterControl pressWaterControl(pressWaterCmds, pressurePump,
+	PressurizedWaterControl pressWaterControl(pressWaterCmds, *statusQueue, pressurePump,
 			valveHose, valveSprinkler, switchSmallTankEmpty);
 
 	// For periodical task execution
