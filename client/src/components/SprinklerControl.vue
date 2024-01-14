@@ -4,6 +4,9 @@
       <button :class="{ 'control-btn-green': status.sprinkler === 'on', 'control-btn-red': status.sprinkler === 'off' }" @click="toggleSprinkler">
         {{ status.sprinkler === 'on' ? 'Turn OFF Sprinkler' : 'Turn ON Sprinkler' }}
       </button>
+      <div v-if="error" class="error-message">
+      {{ error }}
+    </div>
     </div>
   </template>
   
@@ -15,6 +18,7 @@
     data() {
         return {
             status: {},
+            error: null, // Add error property
         }
     },
     mounted() {
@@ -58,11 +62,15 @@
             const response = await fetch('http://localhost:3000/sss/api/status');
             if (response.ok) {
                 this.status = await response.json();
+                this.error = null; // Reset error on successful fetch
             } else {
                 console.error('Failed to get status');
+                this.error = 'Failed to fetch status. Please try again later.';
             }
         } catch (error) {
             console.error('Error fetching status:', error);
+            this.error = 'Error fetching status. Please check your network connection.';
+
         }
       },
     },
