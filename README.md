@@ -5,8 +5,20 @@
 - [sand-square-sprinkler](#sand-square-sprinkler)
   - [Table of Contents](#table-of-contents)
   - [Abstract](#abstract)
-  - [System Overview](#system-overview)
+  - [Low Level Controller (STM32)](#low-level-controller-stm32)
   - [Controller Block Diagram](#controller-block-diagram)
+  - [Serial Interface](#serial-interface)
+    - [`GARAGE_PUMP_START`](#garage_pump_start)
+    - [`GARAGE_PUMP_STOP`](#garage_pump_stop)
+    - [`FILL_LARGE_TANK`](#fill_large_tank)
+    - [`FILL_SMALL_TANK`](#fill_small_tank)
+    - [`FILL_NO_TANK`](#fill_no_tank)
+    - [`SPRINKLER_START`](#sprinkler_start)
+    - [`SPRINKLER_STOP`](#sprinkler_stop)
+    - [`HOSE_START`](#hose_start)
+    - [`HOSE_STOP`](#hose_stop)
+    - [`GET_STATUS_ALL`](#get_status_all)
+    - [`ERROR_UNKNOWN_CMD`](#error_unknown_cmd)
   - [API Endpoints](#api-endpoints)
     - [POST /sss/api/control/garage-pump](#post-sssapicontrolgarage-pump)
     - [POST /sss/api/control//tank](#post-sssapicontroltank)
@@ -19,10 +31,59 @@
 ## Abstract
 Das Projekt Sand Square Spinkler ist eine Sprinkler- und Regenwassersteurerung. Ein STM32 Board stuerert alle Pumpen und Ventile an. Gesteuert wird alles mit einer Web Applikation die auf einem Raspberry Pi lauft und direkt mit dem STM32 Board verbunden ist.
 
-## System Overview
+## Low Level Controller (STM32)
+Die Pumpen und Ventile der Anlagen werden von einem STM32 Mikrocontroller mit PLC-Shield angesteuert. Durch verschiedene State-Machines wird sichergestellt, dass sich die Anlage immer in einem sicheren Zustand befindet, dadurch sind die Pumpen vor trockenlaufen und die Tanks vor dem Überlaufen geschützt.
 ![System](doc/overview-1.png)
 ## Controller Block Diagram
+Der STM32 ist über einen Serial Port mit dem Raspberry Pi verbunden. Auf dem Raspberry Pi läuft eine node.js Applikation. Der Serial-Manager regelt die Kommunikation zum STM, wobei ein temporärer Ausfall des Com-Ports abgefangen wird. Ein express.js Server stellt API-Endpoints zur Verfügung und hostet die Client Webpage statisch. Der Client wird über ein Websocket informiert, wenn neue Daten vorliegen. Der Client holt sich dann die entsprechenden Daten über die API. 
 ![Block Diagram](doc/overview-2.png)
+
+## Serial Interface
+Der Server interagiert über serielle Befehle mit dem Mikrocontroller. Nachfolgend sind alle möglichen Befehle aufgelistet:
+
+### `GARAGE_PUMP_START`
+- **Funktion**: Startet die Garagenpumpe.
+- **Erwartete Antwort**: `GARAGE_PUMP_RUNNING`
+
+### `GARAGE_PUMP_STOP`
+- **Funktion**: Stoppt die Garagenpumpe.
+- **Erwartete Antwort**: `GARAGE_PUMP_STOPPED`
+
+### `FILL_LARGE_TANK`
+- **Funktion**: Wählt den großen Wassertank.
+- **Erwartete Antwort**: `LARGE_TANK_SELECTED`
+
+### `FILL_SMALL_TANK`
+- **Funktion**: Wählt den kleinen Wassertank.
+- **Erwartete Antwort**: `SMALL_TANK_SELECTED`
+
+### `FILL_NO_TANK`
+- **Funktion**: Wählt keinen Wassertank.
+- **Erwartete Antwort**: `NO_TANK_SELECTED`
+
+### `SPRINKLER_START`
+- **Funktion**: Aktiviert das Sprinklersystem.
+- **Erwartete Antwort**: `SPRINKLER_RUNNING`
+
+### `SPRINKLER_STOP`
+- **Funktion**: Deaktiviert das Sprinklersystem.
+- **Erwartete Antwort**: `SPRINKLER_STOPPED`
+
+### `HOSE_START`
+- **Funktion**: Startet den Schlauch.
+- **Erwartete Antwort**: `HOSE_RUNNING`
+
+### `HOSE_STOP`
+- **Funktion**: Stoppt den Schlauch.
+- **Erwartete Antwort**: `HOSE_STOPPED`
+
+### `GET_STATUS_ALL`
+- **Funktion**: Fordert den aktuellen Status aller Komponenten an.
+- **Erwartete Antworten**: Verschiedene Statusmeldungen je nach Komponente.
+
+### `ERROR_UNKNOWN_CMD`
+- **Funktion**: Meldet einen unbekannten oder ungültigen Befehl.
+- **Erwartete Antwort**: Keine spezifische Antwort; wird im Fehlerprotokoll aufgezeichnet.
 
 ## API Endpoints
 
