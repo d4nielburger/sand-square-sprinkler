@@ -59,7 +59,7 @@
       },
       async fetchStatus() {
         try {
-          const response = await fetch('http://localhost:3000/sss/api/status');
+          const response = await fetch(`${API_URI}/status`);
           if (response.ok) {
               this.status = await response.json();
               this.error = null; // Reset error on successful fetch
