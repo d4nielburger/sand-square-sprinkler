@@ -17,51 +17,10 @@ System to control water sprinklers and manage the water reservoir.
     - [GUI](#gui)
 
 ## System Overview
-![System](SA-SD/overview-1.png)
+![System](doc/overview-1.png)
 ## Controller Block Diagram
-![Block Diagram](SA-SD/overview-2.png)
+![Block Diagram](doc/overview-2.png)
 
-## Responsibilities
-**Bachmann**
-- Webclient
-  
-**Burger**
-- Low Level Controller (STM32)
-- Webserver
+## Client
 
-## ToDo
-### STM
-- Additional features..
-
-### Raspi - Server
-- Make client webpage available via server
-- Implement database to store logs
-- Set Sprinkler for a specific time
-
-### Webclient
-- UI Design optimized for tablet/smartphone
-- Set Sprinkler for a specific time
-
-### Carrier PCB
-- Seperate Power Supply for STM 
-
-## Requirements
-### GUI
-**Controls**
-- Garage Pump On/Off
-- Fill tank: Small/Large/none
-- Sprinkler On/Off
-- Hose On/Off
-- Sprinkler On [for x Minutes]
-
-**Status**
-- Garage pump status
-- Fill tank status
-- Sprinkler status
-- Hose status
-
-**Visual System Overview**
-- Optional: Display a visual overview of the System with all pumps, valves and level switches
-
-**Diverse**
-- Alive signal
+Die Vue App hat für jede Pumpenstuereung ein eigenes Component. Die Garagen-, Sprinkler- und Schlauchsteurung ist ein einzelner Button, welcher den aktuellen Status toggelt und posted diesen. Bei der Tank Fill Component haben wir drei Buttons um auszuwählen welcher Tank gefüllt werden soll und dieser wird in der API hinterlegt. Über einen Socket wird die Verbindung mit der API hergestellt. Gibt es einen Status änderung werden die einzelnen Components automatisch geupdated und gegebenfalls die Buttons gändert. Die Buttons zeigen den aktuellen Status an und werden erst geändert wenn sich der Status in der API ändert und nicht direkt beim klicken.
