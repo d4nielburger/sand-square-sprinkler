@@ -13,7 +13,7 @@ const parser = port.pipe(new readline.ReadlineParser({ delimiter: '\n\r' }));
 
 const status = {
     garagePump: '',
-    tank: '',
+    tankSelect: '',
     sprinkler: '',
     hose: '',
 };
@@ -81,13 +81,13 @@ function updateStatusFromSerial(data) {
             status.garagePump = 'off';
             break;
         case 'LARGE_TANK_SELECTED':
-            status.tank = 'large';
+            status.tankSelect = 'large';
             break;
         case 'SMALL_TANK_SELECTED':
-            status.tank = 'small';
+            status.tankSelect = 'small';
             break;
         case 'NO_TANK_SELECTED':
-            status.tank = 'none';
+            status.tankSelect = 'none';
             break;
         case 'SPRINKLER_RUNNING':
             status.sprinkler = 'on';
