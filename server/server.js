@@ -3,7 +3,7 @@ const http = require('http')
 const bodyParser = require('body-parser');
 const socketIO = require('socket.io');
 const path = require('path')
-const { BASE_URI, SERVER_PORT, CLIENT_PATH} = require('./config');
+const { BASE_URI, SERVER_PORT, SERVER_IP, CLIENT_PATH} = require('./config');
 const API_URI = `${BASE_URI}/api`;
 
 const app = express();
@@ -44,7 +44,7 @@ app.get(`${API_URI}/status`, async (req, res) => {
 const controlRoutes = require('./routes/controlRoutes');
 app.use(`${API_URI}/control`, controlRoutes);
 
-server.listen(SERVER_PORT, () => {
+server.listen(SERVER_PORT,SERVER_IP, () => {
   console.log(`Server listening on port ${SERVER_PORT}`);
 });
 
