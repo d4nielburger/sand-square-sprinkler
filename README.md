@@ -7,14 +7,8 @@ System to control water sprinklers and manage the water reservoir.
   - [Table of Contents](#table-of-contents)
   - [System Overview](#system-overview)
   - [Controller Block Diagram](#controller-block-diagram)
-  - [Responsibilities](#responsibilities)
-  - [ToDo](#todo)
-    - [STM](#stm)
-    - [Raspi - Server](#raspi---server)
-    - [Webclient](#webclient)
-    - [Carrier PCB](#carrier-pcb)
-  - [Requirements](#requirements)
-    - [GUI](#gui)
+  - [Client](#client)
+ 
 
 ## System Overview
 ![System](doc/overview-1.png)
